@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Hello APIs!</h1>
+    
+    <h2>Create Animal</h2>
+    
+    <!-- On submitting this first form we use javascript, it's calling the submitAnimal function, instead of an action: -->
+    <form onsubmit="submitAnimal(event)">
+        <label>
+            Animal type: 
+            <input type="text" name="type"/>
+        </label>
+        <label>
+            Number of legs: 
+            <input type="number" name="numberOfLegs"/>
+        </label>
+        <button>Submit Animal</button>
+    </form>
+    
+    <!-- The second form uses the default browser from submission behavior
+    Has action attribute that specifies the endpoint, and the method -->
+    <form action="/api/plants" method="POST">
+        <label>
+            Plant type: 
+            <input type="text" name="type"/>
+        </label>
+        
+        <fieldset>
+            <legend>Does this plant have fruit?: </legend>
+            <label>
+                Yes 
+                 <input type="radio" name="hasFruit" value="true"/>
+            </label>
+             <label>
+                No
+                <input type="radio" name="hasFruit" value="false"/>
+            </label>
+        </fieldset>
+
+        <button>Submit Fruit</button>
+    </form>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+        const submitAnimal = event => {
+            event.preventDefault();
+            
+            let form = event.target; 
+            
+            let data = {
+                type: form.querySelector("[name='type']").value,
+                numberOfLegs: form.querySelector("[name='numberOfLegs']").value
+            }
+
+            axios.post("/api/animals", data)
+            .then(result=>{
+                 console.log(result.data);
+            })
+            .catch(error=>console.log(error.response.data)); 
+        }
+    </script>
+</body>
+</html>
